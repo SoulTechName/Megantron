@@ -5,6 +5,7 @@ import time
 client = discord.Client()
 prefix = "||"
 
+
 @client.event
 async def on_ready():
     print('Logged in as')
@@ -14,8 +15,11 @@ async def on_ready():
 
 
 @client.event
+
 async def on_message(message):
-    user_list = client.get_all_members()
+    # checks for the message starting with help #
+    # and if it does, places a list of commands #
+    # in the authors discord inbox #
     if message.content.startswith(prefix + 'help'):
         for servers in client.servers:
             for members in servers.members:
@@ -27,6 +31,9 @@ async def on_message(message):
                                                        "||help - gets help (I think)\n"
                                                        "```")
 
+    # Checks if the activate command is called and #
+    # if it is, joins the voice call and plays the #
+    # inputed file #
     elif message.content.startswith(prefix + 'activate'):
         voice = await client.join_voice_channel(client.get_channel("249599549826400256"))
         player = voice.create_ffmpeg_player('My_sex_voice.wav')
@@ -35,20 +42,27 @@ async def on_message(message):
         player.stop()
         await discord.VoiceClient.disconnect(voice)
 
-    elif (message.content.contains("stop") or message.content.contains("STOP")) and message.author == "Renz#1208":
+    # Checks if a specific user says stop and if they do #
+    # The bot PMs them telling them never #
+    elif (message.content.startswith("stop") or message.content.startswith("STOP")) and message.author == message.author:
         for servers in client.servers:
             for members in servers.members:
                 if members == message.author:
-                    client.send_message(members, "Never.")
+                    await client.send_message(members, "Never.")
 
-
+    # checks if the message is megan_spam #
+    # and if it is joins the voice chat and #
+    # plays the inputed file #
     elif message.content.startswith(prefix + 'megan_spam'):
         voice = await client.join_voice_channel(client.get_channel("249599549826400256"))
         player = voice.create_ffmpeg_player("")
         player.start()
 
+    # Checks if a specific user sends a message #
+    # and if they do, adds a reaction to the #
+    # message #
     elif str(message.author) == "Renz#1208":
-        await client.add_reaction(message, "megan:271290371659530240")
+        await client.add_reaction(message, "megan:271342548436385792")
 
 
 client.run('MjcxMTAyNTUwMTU2MTE1OTc4.C2Bj8w.nZUA545iYLu9Oo8d_oe72bE-ITg')
